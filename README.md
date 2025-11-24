@@ -28,6 +28,16 @@ This repository now includes a lightweight PHP backend you can pair with the exi
 - The **front** folder contains storefront pages. Wire up forms and buttons to the API endpoints above (for example, using `fetch` from a script tag) to make the pages dynamic.
 - The **admin** folder contains the dashboard templates. After calling `admin.login`, you can hydrate order tables with the `admin.orders` response.
 
+### Storefront wiring provided in this repo
+- `front/assets/js/storefront.js` automatically hydrates:
+  - `front/index.html` via `[data-products-grid="featured"]` for live featured products.
+  - `front/shop-filter.html` via `[data-products-grid="catalog"]` for a browsable catalog.
+  - `front/shop-product-left.html` via `[data-product-detail]` and `?id=PRODUCT_ID` in the URL.
+  - `front/shop-cart.html` via `[data-cart-table]`, `[data-cart-totals]`, and `[data-cart-count]` for removing items and recalculating totals.
+  - `front/shop-checkout.html` via `[data-checkout-items]`, `[data-cart-totals]`, and `[data-checkout-form]` to place an order against the PHP API.
+- Each page sets `window.STORE_API_BASE = '../backend/api.php';` before including `storefront.js`; adjust this if you host the API elsewhere.
+- To attach the mini-cart count to new buttons, just add `data-cart-count` to any element and `storefront.js` will keep it in sync.
+
 ## Database schema helper
 If you want to persist data immediately, you can create a simple schema:
 ```sql

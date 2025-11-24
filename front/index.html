@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="assets/css/main.css?v=6.0" />
 </head>
 
-<body>
+<body data-page="home">
     <!-- Quick view -->
     <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -5142,6 +5142,16 @@
             </div>
         </section>
         <!--End category slider-->
+
+        <section class="section-padding">
+            <div class="container">
+                <div class="section-title wow animate__animated animate__fadeIn" data-wow-delay="0">
+                    <h3>Live vape catalogue</h3>
+                    <p class="mb-0 text-muted">Products are loaded from the PHP API so you can swap JSON seeds with your own database.</p>
+                </div>
+                <div class="row product-grid-4" data-products-grid="featured"></div>
+            </div>
+        </section>
     </main>
     <footer class="main">
         <section class="newsletter mb-15">
@@ -5381,6 +5391,8 @@
     <!-- Template  JS -->
     <script src="./assets/js/main.js?v=6.0"></script>
     <script src="./assets/js/shop.js?v=6.0"></script>
+    <script>window.STORE_API_BASE = '../backend/api.php';</script>
+    <script src="assets/js/storefront.js"></script>
 </body>
 
 </html>

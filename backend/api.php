@@ -23,7 +23,8 @@ try {
             removeFromCart((int)($payload['product_id'] ?? 0));
             break;
         case 'cart.view':
-            respond(cartTotals($payload['currency'] ?? 'AUD'));
+            $currency = $_GET['currency'] ?? $payload['currency'] ?? 'AUD';
+            respond(cartTotals($currency));
             break;
         case 'checkout':
             checkout($payload);

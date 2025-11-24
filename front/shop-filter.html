@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="assets/css/main.css?v=6.0" />
 </head>
 
-<body>
+<body data-page="catalog">
     <header class="header-area header-style-1 header-height-2">
         <div class="mobile-promotion">
             <span>Grand opening, <strong>up to 15%</strong> off all items. Only <strong>3 days</strong> left</span>
@@ -904,7 +904,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row product-grid">
+                    <div class="row product-grid" data-products-grid="catalog">
                         <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
                             <div class="product-cart-wrap mb-30">
                                 <div class="product-img-action-wrap">
@@ -2203,6 +2203,8 @@
     <!-- Template  JS -->
     <script src="./assets/js/main.js?v=6.0"></script>
     <script src="./assets/js/shop.js?v=6.0"></script>
+    <script>window.STORE_API_BASE = '../backend/api.php';</script>
+    <script src="assets/js/storefront.js"></script>
 </body>
 
 </html>

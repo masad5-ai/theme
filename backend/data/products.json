@@ -8,7 +8,7 @@
     "price": 24.95,
     "currency": "AUD",
     "stock": 120,
-    "image": "front/assets/images/products/vaperoo-cloud-bar.png",
+    "image": "front/assets/imgs/shop/product-1-1.jpg",
     "tags": ["menthol", "compact"],
     "featured": true
   },
@@ -21,7 +21,7 @@
     "price": 59.00,
     "currency": "AUD",
     "stock": 42,
-    "image": "front/assets/images/products/vices-classic-kit.png",
+    "image": "front/assets/imgs/shop/product-2-1.jpg",
     "tags": ["starter", "usb-c"],
     "featured": true
   },
@@ -34,7 +34,7 @@
     "price": 29.95,
     "currency": "AUD",
     "stock": 200,
-    "image": "front/assets/images/products/uncle-v-salt.png",
+    "image": "front/assets/imgs/shop/product-3-1.jpg",
     "tags": ["dessert", "nic-salt"],
     "featured": false
   }
