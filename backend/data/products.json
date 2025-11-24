@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "name": "Vaperoo Cloud Bar",
+    "description": "Disposable vape with 600 puffs, menthol finish",
+    "brand": "Vaperoo",
+    "category": "Disposable",
+    "price": 24.95,
+    "currency": "AUD",
+    "stock": 120,
+    "image": "front/assets/images/products/vaperoo-cloud-bar.png",
+    "tags": ["menthol", "compact"],
+    "featured": true
+  },
+  {
+    "id": 2,
+    "name": "Vices Oz Classic Kit",
+    "description": "Starter kit with refillable pod and USB-C charging",
+    "brand": "Vices Oz",
+    "category": "Kits",
+    "price": 59.00,
+    "currency": "AUD",
+    "stock": 42,
+    "image": "front/assets/images/products/vices-classic-kit.png",
+    "tags": ["starter", "usb-c"],
+    "featured": true
+  },
+  {
+    "id": 3,
+    "name": "Uncle V Salt Nic 30ml",
+    "description": "Smooth dessert-inspired nic salts in multiple flavors",
+    "brand": "Uncle V",
+    "category": "E-liquids",
+    "price": 29.95,
+    "currency": "AUD",
+    "stock": 200,
+    "image": "front/assets/images/products/uncle-v-salt.png",
+    "tags": ["dessert", "nic-salt"],
+    "featured": false
+  }
+]
