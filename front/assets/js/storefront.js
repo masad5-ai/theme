@@ -85,7 +85,8 @@
         const id = parseInt(btn.getAttribute('data-add-to-cart'), 10);
         if (!id) return;
         await api('cart.add', { product_id: id, quantity: 1 });
-        await renderCartSummary();
+        const summary = await renderCartSummary();
+        await renderMiniCart(summary);
       });
     });
   }
@@ -123,6 +124,55 @@
     return data;
   }
 
+  async function renderMiniCart(summary) {
+    const containers = document.querySelectorAll('[data-cart-dropdown]');
+    if (!containers.length) return;
+    const data = summary || (await api('cart.view'));
+
+    containers.forEach((container) => {
+      const list = (data.items || [])
+        .map(
+          (item) => `
+            <li>
+              <div class="shopping-cart-img">
+                <a href="shop-product-left.html?id=${item.product.id}"><img alt="${item.product.name}" src="${item.product.image}" /></a>
+              </div>
+              <div class="shopping-cart-title">
+                <h4><a href="shop-product-left.html?id=${item.product.id}">${item.product.name}</a></h4>
+                <h3><span>${item.quantity} × </span>${money(item.price, data.currency)}</h3>
+              </div>
+              <div class="shopping-cart-delete">
+                <a href="#" data-remove-from-cart="${item.product.id}"><i class="fi-rs-cross-small"></i></a>
+              </div>
+            </li>`
+        )
+        .join('');
+
+      container.querySelector('ul')?.remove();
+      const listEl = document.createElement('ul');
+      listEl.innerHTML = list || '<li class="text-center text-muted py-3">Cart is empty</li>';
+      container.prepend(listEl);
+
+      const footer = container.querySelector('.shopping-cart-footer');
+      if (footer) {
+        const subtotal = footer.querySelector('.cart-total > li span:last-child');
+        if (subtotal) subtotal.textContent = money(data.subtotal, data.currency);
+      }
+
+      wireAddToCart(container);
+      container.querySelectorAll('[data-remove-from-cart]').forEach((link) => {
+        link.addEventListener('click', async (event) => {
+          event.preventDefault();
+          const id = parseInt(link.getAttribute('data-remove-from-cart'), 10);
+          await api('cart.remove', { product_id: id });
+          const latest = await renderCartSummary();
+          await renderMiniCart(latest);
+          renderCartPage();
+        });
+      });
+    });
+  }
+
   async function renderCartPage() {
     const table = document.querySelector('[data-cart-table]');
     if (!table) return;
@@ -157,6 +207,8 @@
       totals.querySelector('[data-shipping]').textContent = money(summary.shipping, summary.currency);
       totals.querySelector('[data-total]').textContent = money(summary.total, summary.currency);
     }
+
+    await renderMiniCart(summary);
 
     const clear = document.querySelector('[data-clear-cart]');
     if (clear) {
@@ -249,7 +301,8 @@
   }
 
   async function boot() {
-    await renderCartSummary();
+    const summary = await renderCartSummary();
+    await renderMiniCart(summary);
     await renderFeatured();
     await renderCatalog();
     await renderProductDetail();
