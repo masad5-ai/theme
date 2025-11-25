@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="assets/css/main.css?v=6.0">
 </head>
 
-<body>
+<body data-page="checkout">
     <header class="header-area header-style-1 header-height-2">
         <div class="mobile-promotion"><span>Grand opening, <strong>up to 15%</strong> off all items. Only <strong>3 days</strong> left</span></div>
         <div class="header-top header-top-ptb-1 d-none d-lg-block">
@@ -120,24 +120,24 @@
                                 <div class="header-action-icon-2">
                                     <a href="shop-compare.html">
                                         <img class="svgInject" alt="Nest" src="assets/imgs/theme/icons/icon-compare.svg" />
-                                        <span class="pro-count blue">3</span>
+                                        <span class="pro-count blue" data-cart-count>0</span>
                                     </a>
                                     <a href="shop-compare.html"><span class="lable ml-0">Compare</span></a>
                                 </div>
                                 <div class="header-action-icon-2">
                                     <a href="shop-wishlist.html">
                                         <img class="svgInject" alt="Nest" src="assets/imgs/theme/icons/icon-heart.svg" />
-                                        <span class="pro-count blue">6</span>
+                                        <span class="pro-count blue" data-cart-count>0</span>
                                     </a>
                                     <a href="shop-wishlist.html"><span class="lable">Wishlist</span></a>
                                 </div>
                                 <div class="header-action-icon-2">
                                     <a class="mini-cart-icon" href="shop-cart.html">
                                         <img alt="Nest" src="assets/imgs/theme/icons/icon-cart.svg" />
-                                        <span class="pro-count blue">2</span>
+                                        <span class="pro-count blue" data-cart-count>0</span>
                                     </a>
                                     <a href="shop-cart.html"><span class="lable">Cart</span></a>
-                                    <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                                    <div class="cart-dropdown-wrap cart-dropdown-hm2" data-cart-dropdown>
                                         <ul>
                                             <li>
                                                 <div class="shopping-cart-img">
@@ -412,15 +412,15 @@
                             <div class="header-action-icon-2">
                                 <a href="shop-wishlist.html">
                                     <img alt="Nest" src="assets/imgs/theme/icons/icon-heart.svg">
-                                    <span class="pro-count white">4</span>
+                                    <span class="pro-count white" data-cart-count>0</span>
                                 </a>
                             </div>
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="shop-cart.html">
                                     <img alt="Nest" src="assets/imgs/theme/icons/icon-cart.svg">
-                                    <span class="pro-count white">2</span>
+                                    <span class="pro-count white" data-cart-count>0</span>
                                 </a>
-                                <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2" data-cart-dropdown>
                                     <ul>
                                         <li>
                                             <div class="shopping-cart-img">
@@ -662,7 +662,7 @@
                 <div class="col-lg-8 mb-40">
                     <h1 class="heading-2 mb-10">Checkout</h1>
                     <div class="d-flex justify-content-between">
-                        <h6 class="text-body">There are <span class="text-brand">3</span> products in your cart</h6>
+                        <h6 class="text-body">There are <span class="text-brand" data-cart-count>0</span> products in your cart</h6>
                     </div>
                 </div>
             </div>
@@ -708,7 +708,7 @@
                     </div>
                     <div class="row">
                         <h4 class="mb-30">Billing Details</h4>
-                        <form method="post">
+                        <form method="post" data-checkout-form id="checkout-form">
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <input type="text" required="" name="fname" placeholder="First name *">
@@ -1316,7 +1316,7 @@
                     </div>
                 </div>
                 <div class="col-lg-5">
-                    <div class="border p-40 cart-totals ml-30 mb-50">
+                    <div class="border p-40 cart-totals ml-30 mb-50" data-cart-totals>
                         <div class="d-flex align-items-end justify-content-between mb-30">
                             <h4>Your Order</h4>
                             <h6 class="text-muted">Subtotal</h6>
@@ -1324,66 +1324,23 @@
                         <div class="divider-2 mb-30"></div>
                         <div class="table-responsive order_table checkout">
                             <table class="table no-border">
-                                <tbody>
-                                    <tr>
-                                        <td class="image product-thumbnail"><img src="assets/imgs/shop/product-1-1.jpg" alt="#"></td>
-                                        <td>
-                                            <h6 class="w-160 mb-5"><a href="shop-product-full.html" class="text-heading">Yidarton Women Summer Blue</a></h6></span>
-                                            <div class="product-rate-cover">
-                                                <div class="product-rate d-inline-block">
-                                                    <div class="product-rating" style="width:90%">
-                                                    </div>
-                                                </div>
-                                                <span class="font-small ml-5 text-muted"> (4.0)</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <h6 class="text-muted pl-20 pr-20">x 1</h6>
-                                        </td>
-                                        <td>
-                                            <h4 class="text-brand">$13.3</h4>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="image product-thumbnail"><img src="assets/imgs/shop/product-2-1.jpg" alt="#"></td>
-                                        <td>
-                                            <h6 class="w-160 mb-5"><a href="shop-product-full.html" class="text-heading">Seeds of Change Organic Quinoa</a></h6></span>
-                                            <div class="product-rate-cover">
-                                                <div class="product-rate d-inline-block">
-                                                    <div class="product-rating" style="width:90%">
-                                                    </div>
-                                                </div>
-                                                <span class="font-small ml-5 text-muted"> (4.0)</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <h6 class="text-muted pl-20 pr-20">x 1</h6>
-                                        </td>
-                                        <td>
-                                            <h4 class="text-brand">$15.0</h4>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="image product-thumbnail"><img src="assets/imgs/shop/product-3-1.jpg" alt="#"></td>
-                                        <td>
-                                            <h6 class="w-160 mb-5"><a href="shop-product-full.html" class="text-heading">Angie’s Boomchickapop Sweet </a></h6></span>
-                                            <div class="product-rate-cover">
-                                                <div class="product-rate d-inline-block">
-                                                    <div class="product-rating" style="width:90%">
-                                                    </div>
-                                                </div>
-                                                <span class="font-small ml-5 text-muted"> (4.0)</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <h6 class="text-muted pl-20 pr-20">x 1</h6>
-                                        </td>
-                                        <td>
-                                            <h4 class="text-brand">$17.2</h4>
-                                        </td>
-                                    </tr>
+                                <tbody data-checkout-items>
+                                    <tr><td colspan="4" class="text-center py-3 text-muted">Your order will appear here once you add products to the cart.</td></tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="divider-2 mt-20 mb-20"></div>
+                        <div class="d-flex justify-content-between mb-10">
+                            <h6 class="text-muted">Subtotal</h6>
+                            <h4 class="text-brand" data-subtotal>$0.00</h4>
+                        </div>
+                        <div class="d-flex justify-content-between mb-10">
+                            <h6 class="text-muted">Shipping</h6>
+                            <h4 class="text-brand" data-shipping>$0.00</h4>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h5>Total</h5>
+                            <h3 class="text-brand" data-total>$0.00</h3>
                         </div>
                     </div>
                     <div class="payment ml-30">
@@ -1408,7 +1365,8 @@
                             <img class="mr-15" src="assets/imgs/theme/icons/payment-master.svg" alt="">
                             <img src="assets/imgs/theme/icons/payment-zapper.svg" alt="">
                         </div>
-                        <a href="#" class="btn btn-fill-out btn-block mt-30">Place an Order<i class="fi-rs-sign-out ml-15"></i></a>
+                        <button type="submit" form="checkout-form" class="btn btn-fill-out btn-block mt-30">Place an Order<i class="fi-rs-sign-out ml-15"></i></button>
+                        <div class="mt-2 text-brand" data-checkout-status></div>
                     </div>
                 </div>
             </div>
@@ -1651,6 +1609,8 @@
     <!-- Template  JS -->
     <script src="./assets/js/main.js?v=6.0"></script>
     <script src="./assets/js/shop.js?v=6.0"></script>
+    <script>window.STORE_API_BASE = '../backend/api.php';</script>
+    <script src="assets/js/storefront.js"></script>
 </body>
 
 </html>

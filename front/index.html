@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="assets/css/main.css?v=6.0" />
 </head>
 
-<body>
+<body data-page="home">
     <!-- Quick view -->
     <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -164,24 +164,24 @@
                                 <div class="header-action-icon-2">
                                     <a href="shop-compare.html">
                                         <img class="svgInject" alt="Nest" src="assets/imgs/theme/icons/icon-compare.svg" />
-                                        <span class="pro-count blue">3</span>
+                                        <span class="pro-count blue" data-cart-count>0</span>
                                     </a>
                                     <a href="shop-compare.html"><span class="lable ml-0">Compare</span></a>
                                 </div>
                                 <div class="header-action-icon-2">
                                     <a href="shop-wishlist.html">
                                         <img class="svgInject" alt="Nest" src="assets/imgs/theme/icons/icon-heart.svg" />
-                                        <span class="pro-count blue">6</span>
+                                        <span class="pro-count blue" data-cart-count>0</span>
                                     </a>
                                     <a href="shop-wishlist.html"><span class="lable">Wishlist</span></a>
                                 </div>
                                 <div class="header-action-icon-2">
                                     <a class="mini-cart-icon" href="shop-cart.html">
                                         <img alt="Nest" src="assets/imgs/theme/icons/icon-cart.svg" />
-                                        <span class="pro-count blue">2</span>
+                                        <span class="pro-count blue" data-cart-count>0</span>
                                     </a>
                                     <a href="shop-cart.html"><span class="lable">Cart</span></a>
-                                    <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                                    <div class="cart-dropdown-wrap cart-dropdown-hm2" data-cart-dropdown>
                                         <ul>
                                             <li>
                                                 <div class="shopping-cart-img">
@@ -495,15 +495,15 @@
                             <div class="header-action-icon-2">
                                 <a href="shop-wishlist.html">
                                     <img alt="Nest" src="assets/imgs/theme/icons/icon-heart.svg" />
-                                    <span class="pro-count white">4</span>
+                                    <span class="pro-count white" data-cart-count>0</span>
                                 </a>
                             </div>
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="shop-cart.html">
                                     <img alt="Nest" src="assets/imgs/theme/icons/icon-cart.svg" />
-                                    <span class="pro-count white">2</span>
+                                    <span class="pro-count white" data-cart-count>0</span>
                                 </a>
-                                <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2" data-cart-dropdown>
                                     <ul>
                                         <li>
                                             <div class="shopping-cart-img">
@@ -5142,6 +5142,16 @@
             </div>
         </section>
         <!--End category slider-->
+
+        <section class="section-padding">
+            <div class="container">
+                <div class="section-title wow animate__animated animate__fadeIn" data-wow-delay="0">
+                    <h3>Live vape catalogue</h3>
+                    <p class="mb-0 text-muted">Products are loaded from the PHP API so you can swap JSON seeds with your own database.</p>
+                </div>
+                <div class="row product-grid-4" data-products-grid="featured"></div>
+            </div>
+        </section>
     </main>
     <footer class="main">
         <section class="newsletter mb-15">
@@ -5381,6 +5391,8 @@
     <!-- Template  JS -->
     <script src="./assets/js/main.js?v=6.0"></script>
     <script src="./assets/js/shop.js?v=6.0"></script>
+    <script>window.STORE_API_BASE = '../backend/api.php';</script>
+    <script src="assets/js/storefront.js"></script>
 </body>
 
 </html>

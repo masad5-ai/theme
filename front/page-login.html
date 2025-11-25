@@ -72,24 +72,24 @@
                                 <div class="header-action-icon-2">
                                     <a href="shop-compare.html">
                                         <img class="svgInject" alt="Nest" src="assets/imgs/theme/icons/icon-compare.svg" />
-                                        <span class="pro-count blue">3</span>
+                                        <span class="pro-count blue" data-cart-count>0</span>
                                     </a>
                                     <a href="shop-compare.html"><span class="lable ml-0">Compare</span></a>
                                 </div>
                                 <div class="header-action-icon-2">
                                     <a href="shop-wishlist.html">
                                         <img class="svgInject" alt="Nest" src="assets/imgs/theme/icons/icon-heart.svg" />
-                                        <span class="pro-count blue">6</span>
+                                        <span class="pro-count blue" data-cart-count>0</span>
                                     </a>
                                     <a href="shop-wishlist.html"><span class="lable">Wishlist</span></a>
                                 </div>
                                 <div class="header-action-icon-2">
                                     <a class="mini-cart-icon" href="shop-cart.html">
                                         <img alt="Nest" src="assets/imgs/theme/icons/icon-cart.svg" />
-                                        <span class="pro-count blue">2</span>
+                                        <span class="pro-count blue" data-cart-count>0</span>
                                     </a>
                                     <a href="shop-cart.html"><span class="lable">Cart</span></a>
-                                    <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                                    <div class="cart-dropdown-wrap cart-dropdown-hm2" data-cart-dropdown>
                                         <ul>
                                             <li>
                                                 <div class="shopping-cart-img">
@@ -403,15 +403,15 @@
                             <div class="header-action-icon-2">
                                 <a href="shop-wishlist.html">
                                     <img alt="Nest" src="assets/imgs/theme/icons/icon-heart.svg" />
-                                    <span class="pro-count white">4</span>
+                                    <span class="pro-count white" data-cart-count>0</span>
                                 </a>
                             </div>
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="shop-cart.html">
                                     <img alt="Nest" src="assets/imgs/theme/icons/icon-cart.svg" />
-                                    <span class="pro-count white">2</span>
+                                    <span class="pro-count white" data-cart-count>0</span>
                                 </a>
-                                <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2" data-cart-dropdown>
                                     <ul>
                                         <li>
                                             <div class="shopping-cart-img">
@@ -662,36 +662,20 @@
                                             <h1 class="mb-5">Login</h1>
                                             <p class="mb-30">Don't have an account? <a href="page-register.html">Create here</a></p>
                                         </div>
-                                        <form method="post">
+                                        <form method="post" data-customer-login>
                                             <div class="form-group">
-                                                <input type="text" required="" name="email" placeholder="Username or Email *" />
+                                                <input type="email" required name="email" placeholder="Email *" />
                                             </div>
                                             <div class="form-group">
-                                                <input required="" type="password" name="password" placeholder="Your password *" />
+                                                <input required type="password" name="password" placeholder="Your password *" />
                                             </div>
-                                            <div class="login_footer form-group">
-                                                <div class="chek-form">
-                                                    <input type="text" required="" name="email" placeholder="Security code *" />
-                                                </div>
-                                                <span class="security-code">
-                                                    <b class="text-new">8</b>
-                                                    <b class="text-hot">6</b>
-                                                    <b class="text-sale">7</b>
-                                                    <b class="text-best">5</b>
-                                                </span>
-                                            </div>
-                                            <div class="login_footer form-group mb-50">
-                                                <div class="chek-form">
-                                                    <div class="custome-checkbox">
-                                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="" />
-                                                        <label class="form-check-label" for="exampleCheckbox1"><span>Remember me</span></label>
-                                                    </div>
-                                                </div>
-                                                <a class="text-muted" href="#">Forgot password?</a>
+                                            <div class="login_footer form-group mb-30">
+                                                <a class="text-muted" href="page-forgot-password.html">Forgot password?</a>
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-heading btn-block hover-up" name="login">Log in</button>
                                             </div>
+                                            <div class="small pt-2" data-auth-status></div>
                                         </form>
                                     </div>
                                 </div>
@@ -940,6 +924,8 @@
     <!-- Template  JS -->
     <script src="./assets/js/main.js?v=6.0"></script>
     <script src="./assets/js/shop.js?v=6.0"></script>
+    <script>window.STORE_API_BASE = '../backend/api.php';</script>
+    <script src="assets/js/storefront.js"></script>
 </body>
 
 </html>
