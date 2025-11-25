@@ -1,6 +1,14 @@
 (function () {
   const apiBase = window.ADMIN_API_BASE || '../backend/api.php';
 
+  function ensureDataset(selector, attr) {
+    document.querySelectorAll(selector).forEach((el) => {
+      if (!el.hasAttribute(attr)) {
+        el.setAttribute(attr, '');
+      }
+    });
+  }
+
   async function api(action, body) {
     const method = body ? 'POST' : 'GET';
     const response = await fetch(`${apiBase}?action=${action}`, {
@@ -45,6 +53,7 @@
   }
 
   async function renderProducts() {
+    ensureDataset('.table-products tbody, .table-product-grid', 'data-admin-products');
     const listTargets = document.querySelectorAll('[data-admin-products]');
     if (!listTargets.length) return;
     const data = await api('products');
@@ -109,6 +118,7 @@
   }
 
   async function renderOrders() {
+    ensureDataset('.table-orders tbody, .orders-table tbody', 'data-admin-orders');
     const orderTables = document.querySelectorAll('[data-admin-orders]');
     if (!orderTables.length) return;
     const result = await api('admin.orders');
@@ -142,6 +152,7 @@
   }
 
   async function renderCategories() {
+    ensureDataset('.table-categories tbody', 'data-admin-categories');
     const targets = document.querySelectorAll('[data-admin-categories]');
     if (!targets.length) return;
     const data = await api('categories');
@@ -162,6 +173,7 @@
   }
 
   async function renderBrands() {
+    ensureDataset('.table-brands tbody', 'data-admin-brands');
     const targets = document.querySelectorAll('[data-admin-brands]');
     if (!targets.length) return;
     const data = await api('brands');
@@ -181,6 +193,7 @@
   }
 
   async function renderCustomers() {
+    ensureDataset('.table-customers tbody', 'data-admin-customers');
     const targets = document.querySelectorAll('[data-admin-customers]');
     if (!targets.length) return;
     const data = await api('admin.customers');

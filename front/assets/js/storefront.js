@@ -3,6 +3,14 @@
   let productsCache = null;
   const currencySymbols = { AUD: '$', USD: '$', EUR: '€' };
 
+  function ensureDataset(selector, attr) {
+    const el = document.querySelector(selector);
+    if (el && !el.hasAttribute(attr)) {
+      el.setAttribute(attr, '');
+    }
+    return el;
+  }
+
   async function api(action, body) {
     const method = body ? 'POST' : 'GET';
     const url = method === 'GET' ? `${apiBase}?action=${action}` : `${apiBase}?action=${action}`;
@@ -61,23 +69,25 @@
     `;
   }
 
-  async function renderFeatured() {
-    const container = document.querySelector('[data-products-grid="featured"]');
+  function renderGrid(container, items) {
     if (!container) return;
-    const products = await getProducts();
-    const featured = products.filter((p) => p.featured);
-    container.innerHTML = featured.map(productCard).join('');
+    container.innerHTML = items.map(productCard).join('');
     wireAddToCart(container);
     wireWishAndCompare(container);
   }
 
-  async function renderCatalog() {
-    const container = document.querySelector('[data-products-grid="catalog"]');
-    if (!container) return;
+  async function renderFeatured() {
     const products = await getProducts();
-    container.innerHTML = products.map(productCard).join('');
-    wireAddToCart(container);
-    wireWishAndCompare(container);
+    const featured = products.filter((p) => p.featured);
+    document.querySelectorAll('[data-products-grid="featured"], .product-grid-4[data-hydrate="featured"]').forEach((container) =>
+      renderGrid(container, featured)
+    );
+  }
+
+  async function renderCatalog() {
+    const products = await getProducts();
+    const targets = document.querySelectorAll('[data-products-grid="catalog"], .product-grid-4, .product-grid');
+    targets.forEach((container) => renderGrid(container, products));
   }
 
   function wireAddToCart(scope = document) {
@@ -199,6 +209,7 @@
   }
 
   async function renderCartPage() {
+    ensureDataset('.table-shopping-summery tbody', 'data-cart-table');
     const table = document.querySelector('[data-cart-table]');
     if (!table) return;
     const tbody = table.querySelector('tbody');
@@ -260,6 +271,7 @@
   }
 
   async function renderWishlist() {
+    ensureDataset('.table-wishlist tbody', 'data-wishlist-table');
     const table = document.querySelector('[data-wishlist-table]');
     if (!table) return;
     const tbody = table.querySelector('tbody');
@@ -302,6 +314,7 @@
   }
 
   async function renderCompare() {
+    ensureDataset('.table-compare tbody', 'data-compare-table');
     const table = document.querySelector('[data-compare-table]');
     if (!table) return;
     const tbody = table.querySelector('tbody');
