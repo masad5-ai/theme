@@ -38,8 +38,8 @@
               </a>
             </div>
             <div class="product-action-1">
-              <a aria-label="Add To Wishlist" class="action-btn" href="#"><i class="fi-rs-heart"></i></a>
-              <a aria-label="Compare" class="action-btn" href="#"><i class="fi-rs-shuffle"></i></a>
+              <a aria-label="Add To Wishlist" class="action-btn" href="#" data-add-to-wishlist="${product.id}"><i class="fi-rs-heart"></i></a>
+              <a aria-label="Compare" class="action-btn" href="#" data-add-to-compare="${product.id}"><i class="fi-rs-shuffle"></i></a>
               <a aria-label="Quick view" class="action-btn" href="shop-product-left.html?id=${product.id}"><i class="fi-rs-eye"></i></a>
             </div>
             <div class="product-badges product-badges-position product-badges-mrg">
@@ -68,6 +68,7 @@
     const featured = products.filter((p) => p.featured);
     container.innerHTML = featured.map(productCard).join('');
     wireAddToCart(container);
+    wireWishAndCompare(container);
   }
 
   async function renderCatalog() {
@@ -76,6 +77,7 @@
     const products = await getProducts();
     container.innerHTML = products.map(productCard).join('');
     wireAddToCart(container);
+    wireWishAndCompare(container);
   }
 
   function wireAddToCart(scope = document) {
@@ -87,6 +89,28 @@
         await api('cart.add', { product_id: id, quantity: 1 });
         const summary = await renderCartSummary();
         await renderMiniCart(summary);
+      });
+    });
+  }
+
+  function wireWishAndCompare(scope = document) {
+    scope.querySelectorAll('[data-add-to-wishlist]').forEach((btn) => {
+      btn.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const id = parseInt(btn.getAttribute('data-add-to-wishlist'), 10);
+        if (!id) return;
+        await api('wishlist.add', { product_id: id });
+        await renderWishlist();
+      });
+    });
+
+    scope.querySelectorAll('[data-add-to-compare]').forEach((btn) => {
+      btn.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const id = parseInt(btn.getAttribute('data-add-to-compare'), 10);
+        if (!id) return;
+        await api('compare.add', { product_id: id });
+        await renderCompare();
       });
     });
   }
@@ -112,6 +136,7 @@
     if (addBtn) addBtn.setAttribute('data-add-to-cart', product.id);
 
     wireAddToCart(detail);
+    wireWishAndCompare(detail);
   }
 
   async function renderCartSummary() {
@@ -234,6 +259,168 @@
     });
   }
 
+  async function renderWishlist() {
+    const table = document.querySelector('[data-wishlist-table]');
+    if (!table) return;
+    const tbody = table.querySelector('tbody');
+    const data = await api('wishlist.view');
+
+    if (!data.items || data.items.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No items saved to wishlist yet.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = data.items
+      .map(
+        (item) => `
+        <tr>
+          <td class="product-des product-name">
+            <h6 class="mb-5"><a class="product-name mb-10 text-heading" href="shop-product-left.html?id=${item.product.id}">${item.product.name}</a></h6>
+            <div class="text-muted small">${item.product.brand || ''}</div>
+          </td>
+          <td class="price" data-title="Price"><h4 class="text-body">${money(item.price, data.currency)}</h4></td>
+          <td class="text-center" data-title="Stock">${item.product.stock > 0 ? 'In stock' : 'Out of stock'}</td>
+          <td class="text-right" data-title="Action">
+            <div class="d-flex justify-content-end gap-2">
+              <a aria-label="Add to cart" class="action-btn small" href="#" data-add-to-cart="${item.product.id}"><i class="fi-rs-shopping-bag-add"></i></a>
+              <a aria-label="Remove" class="action-btn small text-danger" href="#" data-remove-wishlist="${item.product.id}"><i class="fi-rs-trash"></i></a>
+            </div>
+          </td>
+        </tr>`
+      )
+      .join('');
+
+    wireAddToCart(table);
+    tbody.querySelectorAll('[data-remove-wishlist]').forEach((btn) => {
+      btn.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const id = parseInt(btn.getAttribute('data-remove-wishlist'), 10);
+        await api('wishlist.remove', { product_id: id });
+        await renderWishlist();
+      });
+    });
+  }
+
+  async function renderCompare() {
+    const table = document.querySelector('[data-compare-table]');
+    if (!table) return;
+    const tbody = table.querySelector('tbody');
+    const data = await api('compare.view');
+
+    if (!data.items || data.items.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No items to compare.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = data.items
+      .map(
+        (item) => `
+        <tr>
+          <td><img src="${item.product.image}" width="80" alt="${item.product.name}"></td>
+          <td>
+            <h6 class="mb-5"><a class="product-name mb-10 text-heading" href="shop-product-left.html?id=${item.product.id}">${item.product.name}</a></h6>
+            <div class="text-muted small">${item.product.category || ''}</div>
+          </td>
+          <td>${money(item.price, data.currency)}</td>
+          <td>${item.product.stock > 0 ? 'In stock' : 'Out of stock'}</td>
+          <td class="text-right">
+            <div class="d-flex justify-content-end gap-2">
+              <a aria-label="Add to cart" class="action-btn small" href="#" data-add-to-cart="${item.product.id}"><i class="fi-rs-shopping-bag-add"></i></a>
+              <a aria-label="Remove" class="action-btn small text-danger" href="#" data-remove-compare="${item.product.id}"><i class="fi-rs-cross-small"></i></a>
+            </div>
+          </td>
+        </tr>`
+      )
+      .join('');
+
+    wireAddToCart(table);
+    tbody.querySelectorAll('[data-remove-compare]').forEach((btn) => {
+      btn.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const id = parseInt(btn.getAttribute('data-remove-compare'), 10);
+        await api('compare.remove', { product_id: id });
+        await renderCompare();
+      });
+    });
+  }
+
+  async function renderAccount() {
+    const nameTarget = document.querySelector('[data-customer-name]');
+    const ordersTable = document.querySelector('[data-customer-orders]');
+    const loginForm = document.querySelector('[data-customer-login]');
+    const registerForm = document.querySelector('[data-customer-register]');
+    const status = document.querySelector('[data-auth-status]');
+    const trackForm = document.querySelector('[data-order-track]');
+    const userResult = await api('customer.me');
+    const user = userResult.user;
+
+    if (nameTarget) {
+      nameTarget.textContent = user?.name || 'Guest';
+    }
+
+    if (ordersTable) {
+      const tbody = ordersTable.querySelector('tbody');
+      const result = await api('customer.orders');
+      const orders = result.orders || [];
+      if (orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No orders yet.</td></tr>';
+      } else {
+        tbody.innerHTML = orders
+          .map(
+            (order) => `
+              <tr>
+                <td>#${order.id || ''}</td>
+                <td>${order.created_at || ''}</td>
+                <td>${order.status || 'Completed'}</td>
+                <td>${money(order.total, order.currency)} for ${order.items?.length || ''} item(s)</td>
+                <td><a href="shop-invoice.html" class="btn-small d-block" data-open-invoice="${order.id || ''}">View</a></td>
+              </tr>`
+          )
+          .join('');
+      }
+    }
+
+    function bindAuth(form, action) {
+      if (!form || form.dataset.bound) return;
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(form).entries());
+        const response = await api(action, data);
+        if (response.error && status) {
+          status.textContent = response.error;
+          status.classList.add('text-danger');
+        } else if (status) {
+          status.textContent = 'Saved';
+          status.classList.remove('text-danger');
+          await renderAccount();
+        }
+      });
+      form.dataset.bound = 'true';
+    }
+
+    bindAuth(loginForm, 'customer.login');
+    bindAuth(registerForm, 'customer.register');
+
+    if (trackForm && !trackForm.dataset.bound) {
+      const trackResult = trackForm.querySelector('[data-track-result]');
+      trackForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(trackForm).entries());
+        const id = parseInt(data['order-id'] || '0', 10);
+        if (!id) return;
+        const response = await api('order.lookup', { id });
+        if (response.error) {
+          trackResult.textContent = response.error;
+          trackResult.classList.add('text-danger');
+        } else if (response.order) {
+          trackResult.textContent = `Order #${response.order.id} for ${response.order.customer_name} totals ${money(response.order.total, response.order.currency)}`;
+          trackResult.classList.remove('text-danger');
+        }
+      });
+      trackForm.dataset.bound = 'true';
+    }
+  }
+
   async function renderCheckout() {
     const form = document.querySelector('[data-checkout-form]');
     if (!form) return;
@@ -300,6 +487,60 @@
     }
   }
 
+  async function renderInvoice() {
+    const itemsTable = document.querySelector('[data-invoice-items]');
+    if (!itemsTable) return;
+    const dateEl = document.querySelector('[data-invoice-date]');
+    const numberEl = document.querySelector('[data-invoice-number]');
+    const customerEl = document.querySelector('[data-invoice-customer]');
+    const contactEl = document.querySelector('[data-invoice-contact]');
+    const dueEl = document.querySelector('[data-invoice-due]');
+    const paymentEl = document.querySelector('[data-invoice-payment]');
+    const subtotalEl = document.querySelector('[data-invoice-subtotal]');
+    const shippingEl = document.querySelector('[data-invoice-shipping]');
+    const totalEl = document.querySelector('[data-invoice-total]');
+
+    const params = new URLSearchParams(window.location.search);
+    const explicitId = parseInt(params.get('id') || '0', 10);
+    const response = explicitId ? await api('order.lookup', { id: explicitId }) : await api('order.last');
+
+    if (!response || response.error || !response.order) {
+      itemsTable.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted">No order available.</td></tr>';
+      return;
+    }
+
+    const order = response.order;
+    if (dateEl) dateEl.textContent = order.created_at || new Date().toLocaleDateString();
+    if (numberEl) numberEl.textContent = `#${order.id || 'N/A'}`;
+    if (customerEl) customerEl.innerHTML = `<strong>${order.customer_name || 'Customer'}</strong><br />${order.email || ''}<br />${order.phone || ''}`;
+    if (contactEl) contactEl.innerHTML = `<strong>${order.email || ''}</strong>`;
+    if (dueEl) dueEl.textContent = order.created_at || 'Upon receipt';
+    if (paymentEl) paymentEl.textContent = order.payment || 'Online';
+
+    const items = order.items || [];
+    itemsTable.innerHTML =
+      items
+        .map(
+          (item) => `
+          <tr>
+            <td>
+              <div class="item-desc-1">
+                <span>${item.product.name}</span>
+                <small>${item.product.brand || ''}</small>
+              </div>
+            </td>
+            <td class="text-center">${money(item.price, order.currency)}</td>
+            <td class="text-center">${item.quantity}</td>
+            <td class="text-right">${money(item.line_total, order.currency)}</td>
+          </tr>`
+        )
+        .join('') || '<tr><td colspan="4" class="text-center py-4 text-muted">No items</td></tr>';
+
+    if (subtotalEl) subtotalEl.textContent = money(order.subtotal, order.currency);
+    if (shippingEl) shippingEl.textContent = money(order.shipping, order.currency);
+    if (totalEl) totalEl.textContent = money(order.total, order.currency);
+  }
+
   async function boot() {
     const summary = await renderCartSummary();
     await renderMiniCart(summary);
@@ -308,6 +549,10 @@
     await renderProductDetail();
     await renderCartPage();
     await renderCheckout();
+    await renderWishlist();
+    await renderCompare();
+    await renderAccount();
+    await renderInvoice();
   }
 
   document.addEventListener('DOMContentLoaded', boot);

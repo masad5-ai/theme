@@ -141,9 +141,75 @@
     counters.forEach((el) => (el.textContent = orders.length.toString()));
   }
 
+  async function renderCategories() {
+    const targets = document.querySelectorAll('[data-admin-categories]');
+    if (!targets.length) return;
+    const data = await api('categories');
+    const categories = data.categories || [];
+    targets.forEach((tbody) => {
+      tbody.innerHTML = categories
+        .map(
+          (cat, idx) => `
+            <tr>
+              <td>${idx + 1}</td>
+              <td>${cat.name}</td>
+              <td>${cat.products}</td>
+              <td>${new Date().toISOString().split('T')[0]}</td>
+            </tr>`
+        )
+        .join('');
+    });
+  }
+
+  async function renderBrands() {
+    const targets = document.querySelectorAll('[data-admin-brands]');
+    if (!targets.length) return;
+    const data = await api('brands');
+    const brands = data.brands || [];
+    targets.forEach((tbody) => {
+      tbody.innerHTML = brands
+        .map(
+          (brand, idx) => `
+            <tr>
+              <td>${idx + 1}</td>
+              <td>${brand.name}</td>
+              <td>${brand.products}</td>
+            </tr>`
+        )
+        .join('');
+    });
+  }
+
+  async function renderCustomers() {
+    const targets = document.querySelectorAll('[data-admin-customers]');
+    if (!targets.length) return;
+    const data = await api('admin.customers');
+    if (data.error) {
+      targets.forEach((tbody) => (tbody.innerHTML = `<tr><td colspan="4" class="text-danger">${data.error}</td></tr>`));
+      return;
+    }
+    const customers = data.customers || [];
+    targets.forEach((tbody) => {
+      tbody.innerHTML = customers
+        .map(
+          (customer) => `
+            <tr>
+              <td>${customer.id}</td>
+              <td>${customer.name || ''}</td>
+              <td>${customer.email}</td>
+              <td>${customer.created_at || ''}</td>
+            </tr>`
+        )
+        .join('');
+    });
+  }
+
   async function renderDashboard() {
     await renderProducts();
     await renderOrders();
+    await renderCategories();
+    await renderBrands();
+    await renderCustomers();
   }
 
   async function boot() {

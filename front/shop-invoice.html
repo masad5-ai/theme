@@ -37,8 +37,8 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="invoice-numb">
-                                            <h6 class="text-end mb-10 mt-20">Date: 30 Nov 2024</h6>
-                                            <h6 class="text-end invoice-header-1">Invoice No: #IVSF1970191</h6>
+                                            <h6 class="text-end mb-10 mt-20">Date: <span data-invoice-date>Today</span></h6>
+                                            <h6 class="text-end invoice-header-1">Invoice No: <span data-invoice-number>#0</span></h6>
                                         </div>
                                     </div>
                                 </div>
@@ -48,20 +48,16 @@
                                     <div class="col-lg-9 col-md-6">
                                         <div class="invoice-number">
                                             <h4 class="invoice-title-1 mb-10">Invoice To</h4>
-                                            <p class="invoice-addr-1">
-                                                <strong>AliThemes Pty Ltd</strong> <br />
-                                                contactalithemes.com <br />
-                                                PO Box 16122, Collins Street West, <br />Australia
+                                            <p class="invoice-addr-1" data-invoice-customer>
+                                                <strong>Customer</strong>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-6">
                                         <div class="invoice-number">
                                             <h4 class="invoice-title-1 mb-10">Bill To</h4>
-                                            <p class="invoice-addr-1">
-                                                <strong>NestMart Inc</strong> <br />
-                                                billing@NestMart.com <br />
-                                                205 North Michigan Avenue, <br />Suite 810 Chicago, 60601, USA
+                                            <p class="invoice-addr-1" data-invoice-contact>
+                                                <strong>billing@demo.com</strong>
                                             </p>
                                         </div>
                                     </div>
@@ -69,11 +65,11 @@
                                 <div class="row mt-2">
                                     <div class="col-lg-9 col-md-6">
                                         <h4 class="invoice-title-1 mb-10">Due Date:</h4>
-                                        <p class="invoice-from-1">30 November 2024</p>
+                                        <p class="invoice-from-1" data-invoice-due>Upon receipt</p>
                                     </div>
                                     <div class="col-lg-3 col-md-6">
                                         <h4 class="invoice-title-1 mb-10">Payment Method</h4>
-                                        <p class="invoice-from-1">Via Paypal</p>
+                                        <p class="invoice-from-1" data-invoice-payment>Credit Card</p>
                                     </div>
                                 </div>
                             </div>
@@ -88,62 +84,19 @@
                                                 <th class="text-right">Amount</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="item-desc-1">
-                                                        <span>Field Roast Chao Cheese Creamy Original</span>
-                                                        <small>SKU: FWM15VKT</small>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">$10.99</td>
-                                                <td class="text-center">1</td>
-                                                <td class="text-right">$10.99</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="item-desc-1">
-                                                        <span>Blue Diamond Almonds Lightly Salted</span>
-                                                        <small>SKU: FWM15VKT</small>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">$20.00</td>
-                                                <td class="text-center">3</td>
-                                                <td class="text-right">$60.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="item-desc-1">
-                                                        <span>Fresh Organic Mustard Leaves Bell Pepper</span>
-                                                        <small>SKU: KVM15VK</small>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">$640.00</td>
-                                                <td class="text-center">1</td>
-                                                <td class="text-right">$640.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="item-desc-1">
-                                                        <span>All Natural Italian-Style Chicken Meatballs</span>
-                                                        <small>SKU: 98HFG</small>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">$240.00</td>
-                                                <td class="text-center">1</td>
-                                                <td class="text-right">$240.00</td>
-                                            </tr>
+                                        <tbody data-invoice-items>
+                                            <tr><td colspan="4" class="text-center py-4 text-muted">No order selected.</td></tr>
                                             <tr>
                                                 <td colspan="3" class="text-end f-w-600">SubTotal</td>
-                                                <td class="text-right">$1710.99</td>
+                                                <td class="text-right" data-invoice-subtotal>$0.00</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" class="text-end f-w-600">Tax</td>
-                                                <td class="text-right">$85.99</td>
+                                                <td colspan="3" class="text-end f-w-600">Shipping</td>
+                                                <td class="text-right" data-invoice-shipping>$0.00</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="3" class="text-end f-w-600">Grand Total</td>
-                                                <td class="text-right f-w-600">$1795.99</td>
+                                                <td class="text-right f-w-600" data-invoice-total>$0.00</td>
                                             </tr>
                                         </tbody>
                                     </table>

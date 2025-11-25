@@ -16,8 +16,16 @@ This repository now includes a lightweight PHP backend you can pair with the exi
 - `POST /backend/api.php?action=cart.remove` — remove item from cart. Body: `{ "product_id": 1 }`.
 - `GET /backend/api.php?action=cart.view&currency=USD` — view cart totals with currency conversion.
 - `POST /backend/api.php?action=checkout` — place order and persist to MySQL or `backend/data/orders.json`.
+- `GET /backend/api.php?action=wishlist.view` — view wishlist items; pair with `wishlist.add` / `wishlist.remove`.
+- `GET /backend/api.php?action=compare.view` — view comparison list; pair with `compare.add` / `compare.remove`.
+- `POST /backend/api.php?action=customer.register` — create a storefront account. Body: `{ "email": "me@example.com", "password": "secret", "name": "Customer" }`.
+- `POST /backend/api.php?action=customer.login` — sign a customer in; `customer.orders` and order tracking hydrate dashboards.
+- `GET /backend/api.php?action=customer.orders` — pull order history for the logged-in customer.
+- `GET /backend/api.php?action=order.lookup&id=1` — fetch a specific order (used by invoices and tracking).
+- `GET /backend/api.php?action=shipping.config` — expose shipping and currency settings from configuration.
 - `POST /backend/api.php?action=admin.login` — validate admin credentials from config.
 - `GET /backend/api.php?action=admin.orders` — list orders (requires `admin.login`).
+- `GET /backend/api.php?action=admin.customers` — list customers (requires `admin.login`).
 
 ## Data model
 - `backend/data/products.json` ships with sample items inspired by vices-oz.com, unclev.com.au, and vaperoo.com.au.
