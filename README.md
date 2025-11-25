@@ -9,6 +9,9 @@ This repository now includes a lightweight PHP backend you can pair with the exi
    ```
 2. Update `backend/config.php` with your MySQL DSN, username, and password. If the database is unreachable, the API will automatically fall back to bundled JSON fixtures.
 3. Point your web server (or `php -S localhost:8000`) at the repository root so `/backend/api.php` is accessible.
+4. Sign in with the seeded credentials (you can change them in `backend/config.php` / `backend/data/users.json`):
+   - Admin: `admin@example.com` / `secret`
+   - Customer: `customer@example.com` / `password`
 
 ## API endpoints
 - `GET /backend/api.php?action=products` — list products from MySQL or `backend/data/products.json`.

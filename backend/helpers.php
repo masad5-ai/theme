@@ -330,8 +330,125 @@ function compareItems(string $currency = 'AUD'): array
 function requireAdmin(array $payload): bool
 {
     $credentials = adminCredentials();
-    return ($payload['email'] ?? '') === ($credentials['email'] ?? '')
+    $email = $payload['email'] ?? $payload['username'] ?? '';
+    return strcasecmp($email, (string)($credentials['email'] ?? '')) === 0
         && ($payload['password'] ?? '') === ($credentials['password'] ?? '');
+}
+
+function adminAuthenticated(): bool
+{
+    return ($_SESSION['admin_authenticated'] ?? false) === true;
+}
+
+function adminLogin(array $payload): void
+{
+    if (!requireAdmin($payload)) {
+        http_response_code(401);
+        respond(['error' => 'Invalid admin credentials']);
+    }
+
+    $_SESSION['admin_authenticated'] = true;
+    respond(['ok' => true, 'admin' => ['email' => adminCredentials()['email'] ?? 'admin@example.com']]);
+}
+
+function adminOrders(): void
+{
+    if (!adminAuthenticated()) {
+        http_response_code(401);
+        respond(['error' => 'Admin login required']);
+    }
+
+    respond(['orders' => allOrders(null)]);
+}
+
+function adminCustomers(): void
+{
+    if (!adminAuthenticated()) {
+        http_response_code(401);
+        respond(['error' => 'Admin login required']);
+    }
+
+    $customers = array_map(static function (array $user): array {
+        unset($user['password']);
+        return $user;
+    }, loadUsers());
+
+    respond(['customers' => $customers]);
+}
+
+function customerRegister(array $payload): void
+{
+    $email = trim((string)($payload['email'] ?? ''));
+    $name = trim((string)($payload['name'] ?? ''));
+    $password = (string)($payload['password'] ?? '');
+
+    if ($email === '' || $password === '') {
+        http_response_code(422);
+        respond(['error' => 'Email and password required']);
+    }
+
+    if (findUserByEmail($email)) {
+        http_response_code(409);
+        respond(['error' => 'User already exists']);
+    }
+
+    $users = loadUsers();
+    $nextId = count($users) > 0 ? max(array_column($users, 'id')) + 1 : 1;
+    $user = [
+        'id' => $nextId,
+        'email' => $email,
+        'name' => $name !== '' ? $name : 'Customer',
+        'password' => password_hash($password, PASSWORD_BCRYPT),
+        'created_at' => date('Y-m-d H:i:s'),
+    ];
+
+    $users[] = $user;
+    saveUsers($users);
+    persistCustomerSession($user);
+
+    respond(['user' => ['id' => $user['id'], 'email' => $user['email'], 'name' => $user['name']]]);
+}
+
+function customerLogin(array $payload): void
+{
+    $email = trim((string)($payload['email'] ?? ''));
+    $password = (string)($payload['password'] ?? '');
+    $user = findUserByEmail($email);
+
+    if (!$user || !password_verify($password, (string)($user['password'] ?? ''))) {
+        http_response_code(401);
+        respond(['error' => 'Invalid credentials']);
+    }
+
+    persistCustomerSession($user);
+    respond(['user' => ['id' => $user['id'], 'email' => $user['email'], 'name' => $user['name']]]);
+}
+
+function customerOrders(): void
+{
+    $user = currentCustomer();
+    if (!$user) {
+        http_response_code(401);
+        respond(['error' => 'Login required']);
+    }
+
+    respond(['orders' => allOrders($user['email'] ?? null)]);
+}
+
+function lookupOrder(int $id): void
+{
+    if ($id <= 0) {
+        http_response_code(404);
+        respond(['error' => 'Order not found']);
+    }
+
+    $order = findOrderById($id);
+    if (!$order) {
+        http_response_code(404);
+        respond(['error' => 'Order not found']);
+    }
+
+    respond(['order' => $order]);
 }
 
 function findOrderById(int $id): ?array
